@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateInvoice } from '@/app/lib/actions'
+import { State, updateInvoice } from '@/app/lib/actions'
 import { useActionState } from 'react';
 
 export default function EditInvoiceForm({
@@ -20,7 +20,7 @@ export default function EditInvoiceForm({
   customers: CustomerField[];
 }) {
   // ensures that id value passed to Server Action is encoded
-  const initialState = { message: null, errors: {}}
+  const initialState: State = { message: null, errors: {}}
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id)
   const [state, formAction] = useActionState(updateInvoiceWithId, initialState)
 
@@ -145,7 +145,7 @@ export default function EditInvoiceForm({
           }
         </div>
         <div id="error" aria-live="polite" aria-atomic="true">
-          {!state.success &&
+          {state.message &&
             <p className="mt-2 text-sm text-red-500" key={state.message}>
               {state.message}
             </p>
